@@ -140,7 +140,6 @@ async def api_recognize(image: UploadFile = File(...)):
     message = client.messages.create(
         model="claude-opus-4-8",
         max_tokens=256,
-        thinking={"type": "adaptive"},
         messages=[{
             "role": "user",
             "content": [
