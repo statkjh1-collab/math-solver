@@ -73,18 +73,27 @@ async function uploadPhoto(e) {
   if (!file) return
   previewUrl.value = URL.createObjectURL(file)
   loading.value = true; isError.value = false; result.value = ''
-  const form = new FormData()
-  form.append('image', file)
-  try {
-    const res = await fetch(`${API_URL}/api/recognize`, { method: 'POST', body: form })
-    const data = await res.json()
-    if (!res.ok) { result.value = data.error || '오류가 발생했어요.'; isError.value = true }
-    else { problem.value = data.extracted; result.value = `[사진에서 읽은 문제] ${data.extracted}\n\n${data.result}` }
-  } catch {
-    result.value = '서버에 연결할 수 없어요.'; isError.value = true
-  } finally {
-    loading.value = false; e.target.value = ''
+
+  const reader = new FileReader()
+  reader.onload = async () => {
+    const base64 = reader.result.split(',')[1]
+    const mediaType = file.type || 'image/jpeg'
+    try {
+      const res = await fetch(`${API_URL}/api/recognize`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64, media_type: mediaType }),
+      })
+      const data = await res.json()
+      if (!res.ok) { result.value = data.detail || data.error || '오류가 발생했어요.'; isError.value = true }
+      else { problem.value = data.extracted; result.value = `[사진에서 읽은 문제] ${data.extracted}\n\n${data.result}` }
+    } catch (err) {
+      result.value = '오류: ' + err.message; isError.value = true
+    } finally {
+      loading.value = false; e.target.value = ''
+    }
   }
+  reader.readAsDataURL(file)
 }
 
 function fillExample(ex) { problem.value = ex; solve() }

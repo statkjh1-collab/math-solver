@@ -122,19 +122,20 @@ def api_solve(req: SolveRequest):
     return {"result": solve_problem(req.problem)}
 
 
+class RecognizeRequest(BaseModel):
+    image: str       # base64 encoded
+    media_type: str = "image/jpeg"
+
+
 @app.post("/api/recognize")
-async def api_recognize(image: UploadFile = File(...)):
+async def api_recognize(req: RecognizeRequest):
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
-        return {"error": "서버에 API 키가 설정되지 않았어요."}, 500
+        from fastapi import HTTPException
+        raise HTTPException(status_code=500, detail="서버에 API 키가 설정되지 않았어요.")
 
-    media_type_map = {
-        ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
-        ".png": "image/png", ".gif": "image/gif", ".webp": "image/webp",
-    }
-    ext = os.path.splitext(image.filename)[1].lower()
-    media_type = media_type_map.get(ext, "image/jpeg")
-    image_data = base64.standard_b64encode(await image.read()).decode("utf-8")
+    image_data = req.image
+    media_type = req.media_type
 
     client = anthropic.Anthropic(api_key=api_key)
     message = client.messages.create(
