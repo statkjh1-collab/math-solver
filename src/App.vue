@@ -106,7 +106,7 @@ function clearPhoto() { previewUrl.value = ''; result.value = ''; problem.value 
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 16px;
 }
 
 .card {
@@ -121,6 +121,7 @@ function clearPhoto() { previewUrl.value = ''; result.value = ''; problem.value 
 h1 { text-align: center; font-size: 28px; color: #3a3a8c; margin-bottom: 6px; }
 .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 20px; }
 
+/* 입력 */
 .input-row { display: flex; gap: 10px; margin-bottom: 12px; }
 .input-row input {
   flex: 1; padding: 12px 16px; font-size: 16px; font-family: inherit;
@@ -130,18 +131,23 @@ h1 { text-align: center; font-size: 28px; color: #3a3a8c; margin-bottom: 6px; }
 .btn-solve {
   padding: 12px 22px; background: #5c6bc0; color: white;
   border: none; border-radius: 10px; font-size: 15px; font-weight: bold;
-  font-family: inherit; cursor: pointer; transition: background 0.2s;
+  font-family: inherit; cursor: pointer; transition: background 0.2s; white-space: nowrap;
 }
 .btn-solve:hover { background: #3f51b5; }
+.btn-solve:active { background: #3f51b5; transform: scale(0.97); }
 
+/* 사진 */
 .photo-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 .btn-photo {
-  padding: 10px 18px; background: #43a047; color: white;
+  flex: 1; padding: 12px 18px; background: #43a047; color: white;
   border: none; border-radius: 10px; font-size: 14px; font-family: inherit;
-  cursor: pointer; transition: background 0.2s;
+  cursor: pointer; transition: background 0.2s; text-align: center;
+  text-decoration: none; display: inline-block;
 }
 .btn-photo:hover { background: #2e7d32; }
+.btn-photo:active { transform: scale(0.97); }
 .status-hint { font-size: 12px; color: #888; }
+
 .spinner {
   display: inline-block; width: 13px; height: 13px;
   border: 2px solid #ccc; border-top-color: #5c6bc0;
@@ -150,15 +156,17 @@ h1 { text-align: center; font-size: 28px; color: #3a3a8c; margin-bottom: 6px; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* 미리보기 */
 .preview-wrap { position: relative; text-align: center; margin-bottom: 14px; }
-.preview-wrap img { max-width: 100%; max-height: 200px; border-radius: 10px; border: 2px solid #e8eaf6; }
+.preview-wrap img { max-width: 100%; max-height: 220px; border-radius: 10px; border: 2px solid #e8eaf6; }
 .btn-clear {
   position: absolute; top: 6px; right: 6px;
   background: rgba(0,0,0,0.5); color: white; border: none;
-  border-radius: 50%; width: 26px; height: 26px; font-size: 14px;
-  cursor: pointer; line-height: 26px; text-align: center;
+  border-radius: 50%; width: 30px; height: 30px; font-size: 16px;
+  cursor: pointer; line-height: 30px; text-align: center;
 }
 
+/* 결과 */
 .result-box {
   background: #f8f9ff; border: 1.5px solid #dde; border-radius: 12px;
   padding: 16px 18px; min-height: 110px; font-size: 15px; line-height: 1.9;
@@ -166,12 +174,38 @@ h1 { text-align: center; font-size: 28px; color: #3a3a8c; margin-bottom: 6px; }
 }
 .result-box.error { color: #c62828; background: #fff3f3; border-color: #ffcdd2; }
 
+/* 예시 */
 .example-label { font-size: 12px; font-weight: bold; color: #888; margin-bottom: 8px; }
 .example-btns { display: flex; flex-wrap: wrap; gap: 8px; }
 .btn-ex {
-  padding: 6px 12px; background: #e8eaf6; color: #3a3a8c;
+  padding: 8px 14px; background: #e8eaf6; color: #3a3a8c;
   border: none; border-radius: 8px; font-size: 13px; font-family: inherit;
   cursor: pointer; transition: background 0.15s;
 }
 .btn-ex:hover { background: #c5cae9; }
+.btn-ex:active { background: #c5cae9; transform: scale(0.97); }
+
+/* ── 모바일 반응형 ── */
+@media (max-width: 480px) {
+  .bg { padding: 0; align-items: flex-start; }
+
+  .card {
+    border-radius: 0;
+    box-shadow: none;
+    padding: 24px 16px 32px;
+    min-height: 100vh;
+  }
+
+  h1 { font-size: 22px; }
+  .subtitle { font-size: 12px; margin-bottom: 16px; }
+
+  .input-row input { font-size: 16px; padding: 14px 12px; }
+  .btn-solve { padding: 14px 16px; font-size: 14px; }
+
+  .btn-photo { font-size: 14px; padding: 14px; }
+
+  .result-box { font-size: 14px; min-height: 80px; padding: 14px; }
+
+  .btn-ex { font-size: 12px; padding: 8px 10px; }
+}
 </style>
