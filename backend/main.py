@@ -3,7 +3,7 @@ import base64
 import math
 import re
 
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import anthropic
@@ -131,7 +131,6 @@ class RecognizeRequest(BaseModel):
 async def api_recognize(req: RecognizeRequest):
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
-        from fastapi import HTTPException
         raise HTTPException(status_code=500, detail="서버에 API 키가 설정되지 않았어요.")
 
     image_data = req.image
