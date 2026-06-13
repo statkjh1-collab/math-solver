@@ -79,7 +79,10 @@ async function uploadPhoto(e) {
       })
       const data = await res.json()
       if (!res.ok) { result.value = data.detail || data.error || '오류가 발생했어요.'; isError.value = true }
-      else { problem.value = data.extracted; result.value = `[사진에서 읽은 문제] ${data.extracted}\n\n${data.result}` }
+      else {
+        problem.value = data.extracted
+        result.value = `[사진에서 읽은 문제]\n${data.extracted}\n\n${data.result}`
+      }
     } catch (err) {
       result.value = '오류: ' + err.message; isError.value = true
     } finally {
