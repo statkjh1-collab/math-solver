@@ -12,17 +12,10 @@
 
       <!-- 사진 버튼 -->
       <div class="photo-row">
-        <button class="btn-photo" @click="$refs.fileInput.click()" :disabled="loading">
+        <a class="btn-photo" href="https://claude.ai" target="_blank" rel="noopener">
           📷 사진으로 문제 풀기
-        </button>
-        <span class="status" v-if="loading"><span class="spinner"></span>사진 읽는 중...</span>
-        <input ref="fileInput" type="file" accept="image/*" @change="uploadPhoto" style="display:none" />
-      </div>
-
-      <!-- 이미지 미리보기 -->
-      <div class="preview-wrap" v-if="previewUrl">
-        <img :src="previewUrl" alt="업로드된 사진" />
-        <button class="btn-clear" @click="clearPhoto">✕</button>
+        </a>
+        <span class="status-hint">Claude.ai에서 사진을 올려 풀 수 있어요</span>
       </div>
 
       <!-- 결과 -->
@@ -145,8 +138,7 @@ h1 { text-align: center; font-size: 28px; color: #3a3a8c; margin-bottom: 6px; }
   cursor: pointer; transition: background 0.2s;
 }
 .btn-photo:hover { background: #2e7d32; }
-.btn-photo:disabled { background: #bbb; cursor: default; }
-.status { font-size: 13px; color: #888; }
+.status-hint { font-size: 12px; color: #888; }
 .spinner {
   display: inline-block; width: 13px; height: 13px;
   border: 2px solid #ccc; border-top-color: #5c6bc0;
